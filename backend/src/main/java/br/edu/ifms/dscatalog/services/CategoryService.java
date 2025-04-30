@@ -9,6 +9,7 @@ import br.edu.ifms.dscatalog.dto.CategoryDTO;
 import br.edu.ifms.dscatalog.entities.Category;
 import br.edu.ifms.dscatalog.repositories.CategoryRepository;
 import br.edu.ifms.dscatalog.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -32,10 +33,23 @@ public class CategoryService {
         return new CategoryDTO(result.orElseThrow(() -> new ResourceNotFoundException("Resource not found")));
     }
 
+    @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         Category entity = new Category();
         entity.setName(dto.getName());
         entity = repository.save(entity);
         return new CategoryDTO(entity);
+    }
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+        try {
+            Category entity = repository.getReferenceById(id);
+            entity.setName(dto.getName());
+            repository.save(entity);
+            return new CategoryDTO(entity);
+        } catch (EntityNotFoundException exception) {
+            throw new ResourceNotFoundException("Category with ID " + id + "was not found.");
+        }
     }
 }

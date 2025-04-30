@@ -22,3 +22,19 @@ content-type: application/json
 {
     "name": "Games"
 }
+
+### Update Category
+PUT {{host}}/categories/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Books and Articles"
+}
+
+### Update Category with id not found
+PUT {{host}}/categories/9999999 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Books and Articles"
+}
