@@ -8,12 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifms.dscatalog.entities.Category;
+import br.edu.ifms.dscatalog.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
+
+    private CategoryService service;
+
+    public CategoryResource(CategoryService service) {
+        this.service = service;
+    }
+
     @GetMapping
     public ResponseEntity<List<Category>> findAll() {
-        return ResponseEntity.ok().body(List.of(new Category(1L, "Books"), new Category(1L, "Eletronics")));
+        return ResponseEntity.ok().body(service.findAll());
     }
 }
