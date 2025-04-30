@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.ifms.dscatalog.dto.CategoryDTO;
+import br.edu.ifms.dscatalog.entities.Category;
 import br.edu.ifms.dscatalog.repositories.CategoryRepository;
 import br.edu.ifms.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -29,5 +30,12 @@ public class CategoryService {
     public CategoryDTO findById(Long id) {
         var result = repository.findById(id);
         return new CategoryDTO(result.orElseThrow(() -> new ResourceNotFoundException("Resource not found")));
+    }
+
+    public CategoryDTO insert(CategoryDTO dto) {
+        Category entity = new Category();
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+        return new CategoryDTO(entity);
     }
 }

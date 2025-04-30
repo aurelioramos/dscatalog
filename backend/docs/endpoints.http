@@ -14,3 +14,11 @@ GET {{host}}/categories/1 HTTP/1.1
 
 ### Get Category by id ERROR
 GET {{host}}/categories/99999 HTTP/1.1
+
+### Create Category
+POST {{host}}/categories HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Games"
+}
