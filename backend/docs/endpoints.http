@@ -38,3 +38,6 @@ content-type: application/json
 {
     "name": "Books and Articles"
 }
+
+### DELETE Category by id
+DELETE {{host}}/categories/4 HTTP/1.1

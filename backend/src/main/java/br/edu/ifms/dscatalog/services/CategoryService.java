@@ -2,12 +2,15 @@ package br.edu.ifms.dscatalog.services;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.ifms.dscatalog.dto.CategoryDTO;
 import br.edu.ifms.dscatalog.entities.Category;
 import br.edu.ifms.dscatalog.repositories.CategoryRepository;
+import br.edu.ifms.dscatalog.services.exceptions.DatabaseException;
 import br.edu.ifms.dscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -50,6 +53,17 @@ public class CategoryService {
             return new CategoryDTO(entity);
         } catch (EntityNotFoundException exception) {
             throw new ResourceNotFoundException("Category with ID " + id + "was not found.");
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            // If the entity is not found in the persistence store it is silently ignored.
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new ResourceNotFoundException("Category with ID " + id + "was not found.");
+        } catch (DataIntegrityViolationException exception) {
+            throw new DatabaseException("Category with ID " + id + " cannot be deleted due to an integrity constraint violation.");
         }
     }
 }
