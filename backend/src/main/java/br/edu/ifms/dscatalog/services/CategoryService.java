@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.edu.ifms.dscatalog.entities.Category;
+import br.edu.ifms.dscatalog.dto.CategoryDTO;
 import br.edu.ifms.dscatalog.repositories.CategoryRepository;
 
 @Service
@@ -17,7 +17,10 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public List<Category> findAll() {
-        return repository.findAll();
+    public List<CategoryDTO> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(CategoryDTO::new)
+                .toList();
     }
 }
