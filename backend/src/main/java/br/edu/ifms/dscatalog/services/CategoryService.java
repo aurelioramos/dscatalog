@@ -23,4 +23,13 @@ public class CategoryService {
                 .map(CategoryDTO::new)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public CategoryDTO findById(Long id) {
+        var result = repository.findById(id);
+        if (result.isPresent()) {
+            return new CategoryDTO(result.get());
+        }
+        return null;
+    }
 }
