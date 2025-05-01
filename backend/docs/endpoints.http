@@ -44,3 +44,39 @@ content-type: application/json
 
 ### DELETE Category by id
 DELETE {{host}}/categories/4 HTTP/1.1
+
+### Get All products Paged
+GET {{host}}/products?page=1&orderBy=price&direction=DESC HTTP/1.1
+
+### Get product by id
+GET {{host}}/products/1 HTTP/1.1
+
+### Get product by id ERROR
+GET {{host}}/products/99999 HTTP/1.1
+
+### Create product
+POST {{host}}/products HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Games"
+}
+
+### Update product
+PUT {{host}}/products/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Books and Articles"
+}
+
+### Update product with id not found
+PUT {{host}}/products/9999999 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Books and Articles"
+}
+
+### DELETE product by id
+DELETE {{host}}/products/4 HTTP/1.1
