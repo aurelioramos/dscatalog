@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +65,13 @@ public class CategoryService {
         } catch (EmptyResultDataAccessException exception) {
             throw new ResourceNotFoundException("Category with ID " + id + "was not found.");
         } catch (DataIntegrityViolationException exception) {
-            throw new DatabaseException("Category with ID " + id + " cannot be deleted due to an integrity constraint violation.");
+            throw new DatabaseException(
+                    "Category with ID " + id + " cannot be deleted due to an integrity constraint violation.");
         }
+    }
+
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+        Page<Category> list = repository.findAll(pageRequest);
+        return list.map(CategoryDTO::new);
     }
 }
