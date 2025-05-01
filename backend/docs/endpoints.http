@@ -46,7 +46,7 @@ content-type: application/json
 DELETE {{host}}/categories/4 HTTP/1.1
 
 ### Get All products Paged
-GET {{host}}/products?page=1&orderBy=price&direction=DESC HTTP/1.1
+GET {{host}}/products?page=0&size=12&sort=name,asc HTTP/1.1
 
 ### Get product by id
 GET {{host}}/products/1 HTTP/1.1
