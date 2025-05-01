@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.ifms.dscatalog.dto.CategoryDTO;
 import br.edu.ifms.dscatalog.dto.ProductDTO;
 import br.edu.ifms.dscatalog.entities.Category;
 import br.edu.ifms.dscatalog.entities.Product;
@@ -41,7 +42,7 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        // entity.setName(dto.getName());
+        copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new ProductDTO(entity);
     }
@@ -50,7 +51,7 @@ public class ProductService {
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
             Product entity = repository.getReferenceById(id);
-            // entity.setName(dto.getName());
+            copyDtoToEntity(dto, entity);
             repository.save(entity);
             return new ProductDTO(entity);
         } catch (EntityNotFoundException exception) {
@@ -67,6 +68,21 @@ public class ProductService {
         } catch (DataIntegrityViolationException exception) {
             throw new DatabaseException(
                     "Product with ID " + id + " cannot be deleted due to an integrity constraint violation.");
+        }
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setDate(dto.getDate());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setPrice(dto.getPrice());
+
+        entity.getCategories().clear();
+
+        for (CategoryDTO categoryDTO : dto.getCategories()) {
+            Category category = categoryRepository.getReferenceById(categoryDTO.getId());
+            entity.getCategories().add(category);
         }
     }
 }

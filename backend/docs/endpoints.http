@@ -51,32 +51,45 @@ GET {{host}}/products?page=1&orderBy=price&direction=DESC HTTP/1.1
 ### Get product by id
 GET {{host}}/products/1 HTTP/1.1
 
-### Get product by id ERROR
-GET {{host}}/products/99999 HTTP/1.1
-
 ### Create product
 POST {{host}}/products HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Games"
+  "name": "PS5",
+  "description": "The new generation PS5 video game",
+  "price": 600.0,
+  "imgUrl": "",
+  "date": "2020-07-20T10:00:00Z",
+  "categories": [
+    {
+      "id": 1
+    },
+    {
+      "id": 3
+    }
+  ]
 }
 
 ### Update product
-PUT {{host}}/products/1 HTTP/1.1
+PUT {{host}}/products/26 HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Books and Articles"
-}
-
-### Update product with id not found
-PUT {{host}}/products/9999999 HTTP/1.1
-content-type: application/json
-
-{
-    "name": "Books and Articles"
+  "name": "Updated product name",
+  "description": "Updated product description",
+  "price": 600.0,
+  "imgUrl": "",
+  "date": "2020-07-20T10:00:00Z",
+  "categories": [
+    {
+      "id": 1
+    },
+    {
+      "id": 3
+    }
+  ]
 }
 
 ### DELETE product by id
-DELETE {{host}}/products/4 HTTP/1.1
+DELETE {{host}}/products/26 HTTP/1.1

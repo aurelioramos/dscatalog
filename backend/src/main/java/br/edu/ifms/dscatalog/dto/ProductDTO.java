@@ -99,4 +99,12 @@ public class ProductDTO implements Serializable {
         this.date = date;
     }
 
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public Set<CategoryDTO> getCategories() {
+        return categories;
+    }
+    
 }
